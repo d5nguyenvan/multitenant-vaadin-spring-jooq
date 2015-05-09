@@ -125,6 +125,6 @@
     <module>vaadin-stack-ui</module>
     <module>vaadin-stack-production</module>
 	  <module>vaadin-stack-datalayer</module>
-      <module>vaadin-stack-dataaccess</module>
+
   </modules>
 </project>

@@ -1,5 +1,5 @@
 spring:
-  datasource:
+  datasource-master:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost/test
     username: thomas
@@ -10,3 +10,14 @@ spring:
 liquibase:
   changeLog: classpath:/db/changelog/db.changelog-master.xml
   contexts: development
+  url: jdbc:postgresql://localhost/test
+  user: thomas
+  password: thomas
+
+tenant:
+  master:
+    user: thomas
+    password: thomas
+    database: test
+    port: 5328
+    host: localhost
