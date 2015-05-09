@@ -4,3 +4,9 @@ spring:
     url: jdbc:postgresql://localhost/test
     username: thomas
     password: thomas
+  jpa:
+    hibernate:
+      ddlAuto: none
+liquibase:
+  changeLog: classpath:/db/changelog/db.changelog-master.xml
+  contexts: development
