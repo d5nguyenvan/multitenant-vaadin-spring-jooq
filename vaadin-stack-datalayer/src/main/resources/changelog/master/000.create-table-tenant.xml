@@ -7,7 +7,7 @@
 
 
 
-<changeSet author="thomas" id="create-table-tenant">
+<changeSet author="thomas" id="public-create-table-tenant">
         <createTable schemaName="public"
                      tableName="tenant">
 
@@ -16,15 +16,6 @@
             </column>
             <column name="tenant_name" type="varchar(100)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="uk_tenant_tenant_name"/>
-            </column>
-            <column name="host" type="varchar(100)" defaultValue="localhost">
-                <constraints nullable="false"/>
-            </column>
-            <column name="port" type="int" defaultValue="5432">
-                <constraints nullable="false"/>
-            </column>
-            <column name="database" type="varchar(100)">
-                <constraints nullable="false"/>
             </column>
             <column name="schema" type="varchar(100)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="uk_tenant_schema_name"/>
@@ -44,10 +35,10 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="thomas" id="insert-default-tenant">
+    <changeSet author="thomas" id="public-insert-default-tenant">
         <insert tableName="tenant" schemaName="public">
             <column name="tenant_name" value="default"/>
-            <column name="database" value="test"/>
+
             <column name="schema" value="${db.schema}"/>
             <column name="user" value="${db.schema}"/>
             <column name="password" value="${db.password}"/>

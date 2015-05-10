@@ -34,6 +34,8 @@ public class MultiTenantDataSource implements DataSource {
     @Qualifier("master")
     private DataSource tenantMasterDataSource;
 
+    @Autowired
+    private TenantHelper tenantHelper;
 
 
 
@@ -58,7 +60,7 @@ public class MultiTenantDataSource implements DataSource {
         synchronized (this) {
             DSLContext dsl = DSL.using(tenantMasterDataSource, SQLDialect.POSTGRES_9_4);
             TenantRecord tenantRecord= dsl.select().from(TENANT).where(TENANT.TENANT_NAME.eq(tenant)).fetchOne().into(TenantRecord.class);
-            HikariConfig config = TenantHelper.toHikariConfig(tenantRecord);
+            HikariConfig config = tenantHelper.toHikariConfig(tenantRecord);
             ds = new HikariDataSource(config);
         }
         return ds;

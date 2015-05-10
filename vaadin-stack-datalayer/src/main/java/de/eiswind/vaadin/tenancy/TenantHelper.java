@@ -2,24 +2,37 @@ package de.eiswind.vaadin.tenancy;
 
 import com.zaxxer.hikari.HikariConfig;
 import de.eiswind.vaadin.datalayer.public_.tables.records.TenantRecord;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.Properties;
 
 /**
  * Created by thomas on 09.05.15.
  */
-public class TenantHelper {
+@Component
+/* package */ class TenantHelper {
+
+
+    @Value("${tenant.tenant-datasource.database}")
+    private String database;
+
+    @Value("${tenant.tenant-datasource.host}")
+    private String host;
+
+    @Value("${tenant.tenant-datasource.port}")
+    private String port;
 
 
 
-    protected static HikariConfig toHikariConfig(TenantRecord tenant) {
+    /* package*/ HikariConfig toHikariConfig(TenantRecord tenant) {
         Properties props = new Properties();
 
         props.setProperty("user", tenant.getUser());
         props.setProperty("password", tenant.getPassword());
-        props.setProperty("databaseName", tenant.getDatabase());
-        props.setProperty("serverName", tenant.getHost());
-        props.setProperty("portNumber", tenant.getPort().toString());
+        props.setProperty("databaseName", database);
+        props.setProperty("serverName", host);
+        props.setProperty("portNumber", port);
         HikariConfig cfg = new HikariConfig();
         cfg.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
         cfg.setDataSourceProperties(props);

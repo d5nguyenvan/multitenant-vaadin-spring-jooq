@@ -2,8 +2,8 @@ spring:
   datasource-master:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost/test
-    username: thomas
-    password: thomas
+    username: master
+    password: master
   jpa:
     hibernate:
       ddlAuto: none
@@ -15,9 +15,7 @@ liquibase:
   password: thomas
 
 tenant:
-  master:
-    user: thomas
-    password: thomas
+  tenant-datasource:
     database: test
     port: 5328
     host: localhost

@@ -9,6 +9,9 @@
     <property name="db.schema" value="tenant_default"/>
     <property name="db.password" value="tenant_default"/>
     <property name="db.admin" value="thomas"/>
+    <property name="db.master" value="master"/>
+    <property name="db.master.password" value="master"/>
+
     <include file="changelog-master.xml" relativeToChangelogFile="true"/>
     <include file="../tenant/changelog-tenant-master.xml" relativeToChangelogFile="true"/>
 

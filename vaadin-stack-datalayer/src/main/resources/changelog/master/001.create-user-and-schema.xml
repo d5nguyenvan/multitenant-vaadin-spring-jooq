@@ -6,21 +6,16 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 
-    <changeSet author="thomas" id="${db.schema}-create-schema-user">
-        <sql>
-            create role ${db.schema} WITH
-            NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN ENCRYPTED PASSWORD' ${db.password}';
-        </sql>
-    </changeSet>
-    <changeSet author="thomas" id="${db.schema}-create-tenant-schema">
-        <sql>
-            create schema if not exists ${db.schema} authorization ${db.schema};
-        </sql>
-    </changeSet>
 
-    <changeSet author="thomas" id="${db.schema}-grant-root-access">
+    <changeSet author="thomas" id="public-create-master-user">
         <sql>
-            grant all privileges on all tables in schema ${db.schema} to ${db.admin}
+            create role ${db.master} WITH
+            NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN ENCRYPTED PASSWORD' ${db.master.password}';
+        </sql>
+    </changeSet>
+    <changeSet author="thomas" id="public-grant-public-access-to-master">
+        <sql>
+            grant all privileges on all tables in schema public to ${db.master}
 
         </sql>
     </changeSet>
