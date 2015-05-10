@@ -9,6 +9,8 @@ import de.eiswind.vaadin.datalayer.public_.tables.Databasechangelog;
 import java.sql.Timestamp;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.jooq.Field;
 import org.jooq.Record11;
@@ -30,7 +32,7 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRecord> implements Record11<String, String, String, Timestamp, Integer, String, String, String, String, String, String> {
 
-	private static final long serialVersionUID = 688907514;
+	private static final long serialVersionUID = -1118057642;
 
 	/**
 	 * Setter for <code>public.databasechangelog.id</code>.
@@ -42,6 +44,8 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
 	/**
 	 * Getter for <code>public.databasechangelog.id</code>.
 	 */
+	@NotNull
+	@Size(max = 255)
 	public String getId() {
 		return (String) getValue(0);
 	}
@@ -56,6 +60,8 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
 	/**
 	 * Getter for <code>public.databasechangelog.author</code>.
 	 */
+	@NotNull
+	@Size(max = 255)
 	public String getAuthor() {
 		return (String) getValue(1);
 	}
@@ -70,6 +76,8 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
 	/**
 	 * Getter for <code>public.databasechangelog.filename</code>.
 	 */
+	@NotNull
+	@Size(max = 255)
 	public String getFilename() {
 		return (String) getValue(2);
 	}
@@ -84,6 +92,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
 	/**
 	 * Getter for <code>public.databasechangelog.dateexecuted</code>.
 	 */
+	@NotNull
 	public Timestamp getDateexecuted() {
 		return (Timestamp) getValue(3);
 	}
@@ -98,6 +107,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
 	/**
 	 * Getter for <code>public.databasechangelog.orderexecuted</code>.
 	 */
+	@NotNull
 	public Integer getOrderexecuted() {
 		return (Integer) getValue(4);
 	}
@@ -112,6 +122,8 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
 	/**
 	 * Getter for <code>public.databasechangelog.exectype</code>.
 	 */
+	@NotNull
+	@Size(max = 10)
 	public String getExectype() {
 		return (String) getValue(5);
 	}
@@ -126,6 +138,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
 	/**
 	 * Getter for <code>public.databasechangelog.md5sum</code>.
 	 */
+	@Size(max = 35)
 	public String getMd5sum() {
 		return (String) getValue(6);
 	}
@@ -140,6 +153,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
 	/**
 	 * Getter for <code>public.databasechangelog.description</code>.
 	 */
+	@Size(max = 255)
 	public String getDescription() {
 		return (String) getValue(7);
 	}
@@ -154,6 +168,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
 	/**
 	 * Getter for <code>public.databasechangelog.comments</code>.
 	 */
+	@Size(max = 255)
 	public String getComments() {
 		return (String) getValue(8);
 	}
@@ -168,6 +183,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
 	/**
 	 * Getter for <code>public.databasechangelog.tag</code>.
 	 */
+	@Size(max = 255)
 	public String getTag() {
 		return (String) getValue(9);
 	}
@@ -182,6 +198,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
 	/**
 	 * Getter for <code>public.databasechangelog.liquibase</code>.
 	 */
+	@Size(max = 20)
 	public String getLiquibase() {
 		return (String) getValue(10);
 	}

@@ -171,6 +171,23 @@
                                         </schema>
                                     </schemata>
                                 </database>
+                                <generate>
+                                    <relations>true</relations>
+
+
+                                     <deprecated>false</deprecated>
+                                    <instanceFields>true</instanceFields>
+                                    <generatedAnnotation>true</generatedAnnotation>
+
+                                    <records>true</records>
+                                    <pojos>false</pojos>
+                                    <immutablePojos>false</immutablePojos>
+                                    <interfaces>false</interfaces>
+                                    <daos>false</daos>
+
+
+                                    <validationAnnotations>true</validationAnnotations>
+                                </generate>
                                 <target>
                                     <packageName>de.eiswind.vaadin.datalayer</packageName>
                                     <directory>src/main/generated/java</directory>

@@ -6,6 +6,7 @@ package de.eiswind.vaadin.datalayer.tenant;
 
 import de.eiswind.vaadin.datalayer.tenant.Sequences;
 import de.eiswind.vaadin.datalayer.tenant.tables.User;
+import de.eiswind.vaadin.datalayer.tenant.tables.VUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tenant extends SchemaImpl {
 
-	private static final long serialVersionUID = 42793812;
+	private static final long serialVersionUID = -368754496;
 
 	/**
 	 * The reference instance of <code>tenant</code>
@@ -66,6 +67,7 @@ public class Tenant extends SchemaImpl {
 
 	private final List<Table<?>> getTables0() {
 		return Arrays.<Table<?>>asList(
-			User.USER);
+			User.USER,
+			VUser.V_USER);
 	}
 }

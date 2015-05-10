@@ -5,6 +5,7 @@ package de.eiswind.vaadin.datalayer.tenant;
 
 
 import de.eiswind.vaadin.datalayer.tenant.tables.User;
+import de.eiswind.vaadin.datalayer.tenant.tables.VUser;
 
 import javax.annotation.Generated;
 
@@ -26,4 +27,9 @@ public class Tables {
 	 * The table tenant.user
 	 */
 	public static final User USER = de.eiswind.vaadin.datalayer.tenant.tables.User.USER;
+
+	/**
+	 * The table tenant.v_user
+	 */
+	public static final VUser V_USER = de.eiswind.vaadin.datalayer.tenant.tables.VUser.V_USER;
 }

@@ -9,6 +9,8 @@ import de.eiswind.vaadin.datalayer.public_.tables.Databasechangeloglock;
 import java.sql.Timestamp;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.jooq.Field;
 import org.jooq.Record1;
@@ -31,7 +33,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatabasechangeloglockRecord extends UpdatableRecordImpl<DatabasechangeloglockRecord> implements Record4<Integer, Boolean, Timestamp, String> {
 
-	private static final long serialVersionUID = 1443781620;
+	private static final long serialVersionUID = -590895955;
 
 	/**
 	 * Setter for <code>public.databasechangeloglock.id</code>.
@@ -43,6 +45,7 @@ public class DatabasechangeloglockRecord extends UpdatableRecordImpl<Databasecha
 	/**
 	 * Getter for <code>public.databasechangeloglock.id</code>.
 	 */
+	@NotNull
 	public Integer getId() {
 		return (Integer) getValue(0);
 	}
@@ -57,6 +60,7 @@ public class DatabasechangeloglockRecord extends UpdatableRecordImpl<Databasecha
 	/**
 	 * Getter for <code>public.databasechangeloglock.locked</code>.
 	 */
+	@NotNull
 	public Boolean getLocked() {
 		return (Boolean) getValue(1);
 	}
@@ -85,6 +89,7 @@ public class DatabasechangeloglockRecord extends UpdatableRecordImpl<Databasecha
 	/**
 	 * Getter for <code>public.databasechangeloglock.lockedby</code>.
 	 */
+	@Size(max = 255)
 	public String getLockedby() {
 		return (String) getValue(3);
 	}

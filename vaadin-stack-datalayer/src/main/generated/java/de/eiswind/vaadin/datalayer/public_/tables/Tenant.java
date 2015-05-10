@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tenant extends TableImpl<TenantRecord> {
 
-	private static final long serialVersionUID = 1050039626;
+	private static final long serialVersionUID = 1053441686;
 
 	/**
 	 * The reference instance of <code>public.tenant</code>
@@ -58,21 +58,6 @@ public class Tenant extends TableImpl<TenantRecord> {
 	 * The column <code>public.tenant.tenant_name</code>.
 	 */
 	public final TableField<TenantRecord, String> TENANT_NAME = createField("tenant_name", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
-
-	/**
-	 * The column <code>public.tenant.host</code>.
-	 */
-	public final TableField<TenantRecord, String> HOST = createField("host", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false).defaulted(true), this, "");
-
-	/**
-	 * The column <code>public.tenant.port</code>.
-	 */
-	public final TableField<TenantRecord, Integer> PORT = createField("port", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");
-
-	/**
-	 * The column <code>public.tenant.database</code>.
-	 */
-	public final TableField<TenantRecord, String> DATABASE = createField("database", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
 
 	/**
 	 * The column <code>public.tenant.schema</code>.
