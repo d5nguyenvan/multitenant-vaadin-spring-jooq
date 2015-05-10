@@ -1,11 +1,8 @@
 package de.eiswind.vaadin.tenancy;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -51,11 +48,11 @@ public class MultiTenantDataSource implements DataSource {
             return ds;
         }
         synchronized (this) {
-            JdbcTemplate template = new JdbcTemplate(tenantMasterDataSource);
-            String sql = "SELECT * from tenant WHERE tenant = ?";
-            Tenant t = template.queryForObject(sql, new Object[]{tenant}, new BeanPropertyRowMapper<>(Tenant.class));
-            ds = new HikariDataSource(t.toHikariConfig());
-            dataSourceMap.put(tenant, ds);
+//            JdbcTemplate template = new JdbcTemplate(tenantMasterDataSource);
+//            String sql = "SELECT * from tenant WHERE tenant = ?";
+//            Tenant t = template.queryForObject(sql, new Object[]{tenant}, new BeanPropertyRowMapper<>(Tenant.class));
+//            ds = new HikariDataSource(t.toHikariConfig());
+//            dataSourceMap.put(tenant, ds);
         }
         return ds;
     }

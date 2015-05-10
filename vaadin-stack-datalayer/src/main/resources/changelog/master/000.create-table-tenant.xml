@@ -1,24 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
-    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 
-    <changeSet author="thomas" id="createTable-tenant">
+
+<changeSet author="thomas" id="createTable-tenant">
         <createTable schemaName="public"
                      tableName="tenant">
             <column name="tenant" type="varchar(100)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="host" type="varchar(100)">
+            <column name="host" type="varchar(100)" defaultValue="localhost">
                 <constraints nullable="false"/>
             </column>
-            <column name="port" type="int">
+            <column name="port" type="int" defaultValue="5432">
                 <constraints nullable="false"/>
             </column>
             <column name="database" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="schema" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
             <column name="user" type="varchar(100)">
@@ -27,19 +31,22 @@
             <column name="password" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
+            <column name="min_connections" type="varchar(100)" defaultValue="1">
+                <constraints nullable="false" />
+            </column>
+            <column name="max_connections" type="varchar(100)" defaultValue="5">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
     <changeSet author="thomas" id="insert-default-tenant">
-        <insert tableName="tenant">
+        <insert tableName="tenant" schemaName="public">
             <column name="tenant" value="default"/>
-            <column name="host" value="localhost"/>
-            <column name="port" value="5432"/>
-            <column name="database" value="tenant-default"/>
+            <column name="database" value="test"/>
+            <column name="schema" value="${db.schema}"/>
             <column name="user" value="tenant-default"/>
-
             <column name="password" value="tenant-default"/>
-
         </insert>
     </changeSet>
 

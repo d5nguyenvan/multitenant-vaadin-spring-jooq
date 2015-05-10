@@ -17,6 +17,8 @@ public class Tenant {
 
     String database;
 
+    String schema;
+
     String user;
 
     String password;
@@ -89,18 +91,26 @@ public class Tenant {
         this.maxConnections = maxConnections;
     }
 
-    protected HikariConfig toHikariConfig(){
+    public String getSchema() {
+        return schema;
+    }
+
+    public void setSchema(String schema) {
+        this.schema = schema;
+    }
+
+    protected HikariConfig toHikariConfig() {
         Properties props = new Properties();
 
         props.setProperty("user", user);
         props.setProperty("password", password);
-        props.setProperty("databaseName",database);
+        props.setProperty("databaseName", database);
         props.setProperty("serverName", host);
         props.setProperty("portNumber", new Integer(port).toString());
         HikariConfig cfg = new HikariConfig();
         cfg.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
         cfg.setDataSourceProperties(props);
-        cfg.setPoolName("Pool for "+tenant);
+        cfg.setPoolName("Pool for " + tenant);
         cfg.setMinimumIdle(minConnections);
         cfg.setMaximumPoolSize(maxConnections);
         cfg.setAutoCommit(false);
