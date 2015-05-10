@@ -7,11 +7,15 @@
 
 
 
-<changeSet author="thomas" id="createTable-tenant">
+<changeSet author="thomas" id="create-table-tenant">
         <createTable schemaName="public"
                      tableName="tenant">
-            <column name="tenant" type="varchar(100)">
+
+            <column name="id" type="bigserial">
                 <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="tenant_name" type="varchar(100)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uk_tenant_tenant_name"/>
             </column>
             <column name="host" type="varchar(100)" defaultValue="localhost">
                 <constraints nullable="false"/>
@@ -23,7 +27,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="schema" type="varchar(100)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="uk_tenant_schema_name"/>
             </column>
             <column name="user" type="varchar(100)">
                 <constraints nullable="false"/>
@@ -31,10 +35,10 @@
             <column name="password" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="min_connections" type="varchar(100)" defaultValue="1">
+            <column name="min_idle" type="int" defaultValue="1">
                 <constraints nullable="false" />
             </column>
-            <column name="max_connections" type="varchar(100)" defaultValue="5">
+            <column name="max_connections" type="int" defaultValue="5">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -42,11 +46,11 @@
 
     <changeSet author="thomas" id="insert-default-tenant">
         <insert tableName="tenant" schemaName="public">
-            <column name="tenant" value="default"/>
+            <column name="tenant_name" value="default"/>
             <column name="database" value="test"/>
             <column name="schema" value="${db.schema}"/>
-            <column name="user" value="tenant-default"/>
-            <column name="password" value="tenant-default"/>
+            <column name="user" value="${db.schema}"/>
+            <column name="password" value="${db.password}"/>
         </insert>
     </changeSet>
 

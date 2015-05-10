@@ -29,7 +29,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Record2<Long, String> {
 
-	private static final long serialVersionUID = -269604509;
+	private static final long serialVersionUID = -1311640061;
 
 	/**
 	 * Setter for <code>tenant.user.id</code>.
@@ -46,16 +46,16 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 	}
 
 	/**
-	 * Setter for <code>tenant.user.name</code>.
+	 * Setter for <code>tenant.user.user_name</code>.
 	 */
-	public void setName(String value) {
+	public void setUserName(String value) {
 		setValue(1, value);
 	}
 
 	/**
-	 * Getter for <code>tenant.user.name</code>.
+	 * Getter for <code>tenant.user.user_name</code>.
 	 */
-	public String getName() {
+	public String getUserName() {
 		return (String) getValue(1);
 	}
 
@@ -104,7 +104,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 	 */
 	@Override
 	public Field<String> field2() {
-		return User.USER.NAME;
+		return User.USER.USER_NAME;
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 	 */
 	@Override
 	public String value2() {
-		return getName();
+		return getUserName();
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 	 */
 	@Override
 	public UserRecord value2(String value) {
-		setName(value);
+		setUserName(value);
 		return this;
 	}
 
@@ -165,10 +165,10 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 	/**
 	 * Create a detached, initialised UserRecord
 	 */
-	public UserRecord(Long id, String name) {
+	public UserRecord(Long id, String userName) {
 		super(User.USER);
 
 		setValue(0, id);
-		setValue(1, name);
+		setValue(1, userName);
 	}
 }

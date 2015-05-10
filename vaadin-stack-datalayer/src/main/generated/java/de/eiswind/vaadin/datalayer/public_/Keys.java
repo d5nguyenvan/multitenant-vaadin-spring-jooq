@@ -11,6 +11,7 @@ import de.eiswind.vaadin.datalayer.public_.tables.records.TenantRecord;
 
 import javax.annotation.Generated;
 
+import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.AbstractKeys;
 
@@ -33,6 +34,7 @@ public class Keys {
 	// IDENTITY definitions
 	// -------------------------------------------------------------------------
 
+	public static final Identity<TenantRecord, Long> IDENTITY_TENANT = Identities0.IDENTITY_TENANT;
 
 	// -------------------------------------------------------------------------
 	// UNIQUE and PRIMARY KEY definitions
@@ -40,6 +42,8 @@ public class Keys {
 
 	public static final UniqueKey<DatabasechangeloglockRecord> PK_DATABASECHANGELOGLOCK = UniqueKeys0.PK_DATABASECHANGELOGLOCK;
 	public static final UniqueKey<TenantRecord> PK_TENANT = UniqueKeys0.PK_TENANT;
+	public static final UniqueKey<TenantRecord> UK_TENANT_TENANT_NAME = UniqueKeys0.UK_TENANT_TENANT_NAME;
+	public static final UniqueKey<TenantRecord> UK_TENANT_SCHEMA_NAME = UniqueKeys0.UK_TENANT_SCHEMA_NAME;
 
 	// -------------------------------------------------------------------------
 	// FOREIGN KEY definitions
@@ -50,8 +54,14 @@ public class Keys {
 	// [#1459] distribute members to avoid static initialisers > 64kb
 	// -------------------------------------------------------------------------
 
+	private static class Identities0 extends AbstractKeys {
+		public static Identity<TenantRecord, Long> IDENTITY_TENANT = createIdentity(Tenant.TENANT, Tenant.TENANT.ID);
+	}
+
 	private static class UniqueKeys0 extends AbstractKeys {
 		public static final UniqueKey<DatabasechangeloglockRecord> PK_DATABASECHANGELOGLOCK = createUniqueKey(Databasechangeloglock.DATABASECHANGELOGLOCK, Databasechangeloglock.DATABASECHANGELOGLOCK.ID);
-		public static final UniqueKey<TenantRecord> PK_TENANT = createUniqueKey(Tenant.TENANT, Tenant.TENANT.TENANT_);
+		public static final UniqueKey<TenantRecord> PK_TENANT = createUniqueKey(Tenant.TENANT, Tenant.TENANT.ID);
+		public static final UniqueKey<TenantRecord> UK_TENANT_TENANT_NAME = createUniqueKey(Tenant.TENANT, Tenant.TENANT.TENANT_NAME);
+		public static final UniqueKey<TenantRecord> UK_TENANT_SCHEMA_NAME = createUniqueKey(Tenant.TENANT, Tenant.TENANT.SCHEMA);
 	}
 }

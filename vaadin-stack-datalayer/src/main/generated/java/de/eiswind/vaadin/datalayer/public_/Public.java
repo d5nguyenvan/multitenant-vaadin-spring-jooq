@@ -4,6 +4,7 @@
 package de.eiswind.vaadin.datalayer.public_;
 
 
+import de.eiswind.vaadin.datalayer.public_.Sequences;
 import de.eiswind.vaadin.datalayer.public_.tables.Databasechangelog;
 import de.eiswind.vaadin.datalayer.public_.tables.Databasechangeloglock;
 import de.eiswind.vaadin.datalayer.public_.tables.Tenant;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
 
@@ -31,7 +33,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-	private static final long serialVersionUID = 1744807037;
+	private static final long serialVersionUID = -1141953148;
 
 	/**
 	 * The reference instance of <code>public</code>
@@ -43,6 +45,18 @@ public class Public extends SchemaImpl {
 	 */
 	private Public() {
 		super("public");
+	}
+
+	@Override
+	public final List<Sequence<?>> getSequences() {
+		List result = new ArrayList();
+		result.addAll(getSequences0());
+		return result;
+	}
+
+	private final List<Sequence<?>> getSequences0() {
+		return Arrays.<Sequence<?>>asList(
+			Sequences.TENANT_ID_SEQ);
 	}
 
 	@Override

@@ -1,5 +1,11 @@
 package de.eiswind.vaadin.tenancy;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import de.eiswind.vaadin.datalayer.public_.tables.records.TenantRecord;
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
@@ -13,6 +19,8 @@ import java.sql.SQLFeatureNotSupportedException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import static de.eiswind.vaadin.datalayer.public_.Tables.TENANT;
 
 /**
  * Created by thomas on 09.05.15.
@@ -48,11 +56,10 @@ public class MultiTenantDataSource implements DataSource {
             return ds;
         }
         synchronized (this) {
-//            JdbcTemplate template = new JdbcTemplate(tenantMasterDataSource);
-//            String sql = "SELECT * from tenant WHERE tenant = ?";
-//            Tenant t = template.queryForObject(sql, new Object[]{tenant}, new BeanPropertyRowMapper<>(Tenant.class));
-//            ds = new HikariDataSource(t.toHikariConfig());
-//            dataSourceMap.put(tenant, ds);
+            DSLContext dsl = DSL.using(tenantMasterDataSource, SQLDialect.POSTGRES_9_4);
+            TenantRecord tenantRecord= dsl.select().from(TENANT).where(TENANT.TENANT_NAME.eq(tenant)).fetchOne().into(TenantRecord.class);
+            HikariConfig config = TenantHelper.toHikariConfig(tenantRecord);
+            ds = new HikariDataSource(config);
         }
         return ds;
     }

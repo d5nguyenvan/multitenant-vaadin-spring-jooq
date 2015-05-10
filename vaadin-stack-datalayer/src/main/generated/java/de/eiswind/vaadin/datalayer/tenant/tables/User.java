@@ -14,6 +14,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -33,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends TableImpl<UserRecord> {
 
-	private static final long serialVersionUID = -890462289;
+	private static final long serialVersionUID = 1282154697;
 
 	/**
 	 * The reference instance of <code>tenant.user</code>
@@ -51,12 +52,12 @@ public class User extends TableImpl<UserRecord> {
 	/**
 	 * The column <code>tenant.user.id</code>.
 	 */
-	public final TableField<UserRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+	public final TableField<UserRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaulted(true), this, "");
 
 	/**
-	 * The column <code>tenant.user.name</code>.
+	 * The column <code>tenant.user.user_name</code>.
 	 */
-	public final TableField<UserRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
+	public final TableField<UserRecord, String> USER_NAME = createField("user_name", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
 
 	/**
 	 * Create a <code>tenant.user</code> table reference
@@ -84,6 +85,14 @@ public class User extends TableImpl<UserRecord> {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public Identity<UserRecord, Long> getIdentity() {
+		return Keys.IDENTITY_USER;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public UniqueKey<UserRecord> getPrimaryKey() {
 		return Keys.PK_USER;
 	}
@@ -93,7 +102,7 @@ public class User extends TableImpl<UserRecord> {
 	 */
 	@Override
 	public List<UniqueKey<UserRecord>> getKeys() {
-		return Arrays.<UniqueKey<UserRecord>>asList(Keys.PK_USER, Keys.CONSTRAINT_USER_NAME);
+		return Arrays.<UniqueKey<UserRecord>>asList(Keys.PK_USER, Keys.UK_USER_USER_NAME);
 	}
 
 	/**

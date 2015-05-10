@@ -14,6 +14,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -33,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tenant extends TableImpl<TenantRecord> {
 
-	private static final long serialVersionUID = 351131241;
+	private static final long serialVersionUID = 1050039626;
 
 	/**
 	 * The reference instance of <code>public.tenant</code>
@@ -49,9 +50,14 @@ public class Tenant extends TableImpl<TenantRecord> {
 	}
 
 	/**
-	 * The column <code>public.tenant.tenant</code>.
+	 * The column <code>public.tenant.id</code>.
 	 */
-	public final TableField<TenantRecord, String> TENANT_ = createField("tenant", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
+	public final TableField<TenantRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.tenant.tenant_name</code>.
+	 */
+	public final TableField<TenantRecord, String> TENANT_NAME = createField("tenant_name", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
 
 	/**
 	 * The column <code>public.tenant.host</code>.
@@ -84,14 +90,14 @@ public class Tenant extends TableImpl<TenantRecord> {
 	public final TableField<TenantRecord, String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
 
 	/**
-	 * The column <code>public.tenant.min_connections</code>.
+	 * The column <code>public.tenant.min_idle</code>.
 	 */
-	public final TableField<TenantRecord, String> MIN_CONNECTIONS = createField("min_connections", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false).defaulted(true), this, "");
+	public final TableField<TenantRecord, Integer> MIN_IDLE = createField("min_idle", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * The column <code>public.tenant.max_connections</code>.
 	 */
-	public final TableField<TenantRecord, String> MAX_CONNECTIONS = createField("max_connections", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false).defaulted(true), this, "");
+	public final TableField<TenantRecord, Integer> MAX_CONNECTIONS = createField("max_connections", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>public.tenant</code> table reference
@@ -119,6 +125,14 @@ public class Tenant extends TableImpl<TenantRecord> {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public Identity<TenantRecord, Long> getIdentity() {
+		return Keys.IDENTITY_TENANT;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public UniqueKey<TenantRecord> getPrimaryKey() {
 		return Keys.PK_TENANT;
 	}
@@ -128,7 +142,7 @@ public class Tenant extends TableImpl<TenantRecord> {
 	 */
 	@Override
 	public List<UniqueKey<TenantRecord>> getKeys() {
-		return Arrays.<UniqueKey<TenantRecord>>asList(Keys.PK_TENANT);
+		return Arrays.<UniqueKey<TenantRecord>>asList(Keys.PK_TENANT, Keys.UK_TENANT_TENANT_NAME, Keys.UK_TENANT_SCHEMA_NAME);
 	}
 
 	/**
