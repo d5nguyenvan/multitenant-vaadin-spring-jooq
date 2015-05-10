@@ -19,6 +19,7 @@
 		<vaadin.version>7.4.5</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 		<vaadin.boot.version>1.0.0.beta3</vaadin.boot.version>
+		<vaadin.security.version>0.0.6-SNAPSHOT</vaadin.security.version>
 		<jetty.plugin.version>9.2.3.v20140905</jetty.plugin.version>
 		<postgres.driver.version>9.4-1201-jdbc41</postgres.driver.version>
 		<querydsl.version>3.6.3</querydsl.version>
@@ -97,7 +98,17 @@
 				<artifactId>vaadin-spring-boot-starter</artifactId>
 				<version>${vaadin.boot.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>org.vaadin.spring.extensions</groupId>
+				<artifactId>vaadin-spring-ext-security</artifactId>
+				<version>${vaadin.security.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.vaadin</groupId>
+						<artifactId>vaadin-spring</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 		</dependencies>
 
 	</dependencyManagement>

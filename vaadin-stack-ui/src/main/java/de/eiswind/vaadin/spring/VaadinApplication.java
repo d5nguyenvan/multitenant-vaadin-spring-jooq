@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "de.eiswind.vaadin")
+@ComponentScan(basePackages = {"de.eiswind.vaadin","org.vaadin.spring.config"})
 @Configuration
 public class VaadinApplication extends SpringBootServletInitializer {
 
