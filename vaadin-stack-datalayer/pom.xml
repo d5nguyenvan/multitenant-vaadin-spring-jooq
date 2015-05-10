@@ -46,7 +46,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/main/generated-java</source>
+                                <source>src/main/generated/java</source>
 
                             </sources>
                         </configuration>
@@ -59,7 +59,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>src/main/generated-java</directory>
+                            <directory>src/main/generated/java</directory>
                             <includes>
                                 <include>**/*.java</include>
 
@@ -130,9 +130,9 @@
                             <!-- JDBC connection parameters -->
                             <jdbc>
                                 <driver>org.postgresql.Driver</driver>
-                                <url>jdbc:postgresql:postgres</url>
-                                <user>postgres</user>
-                                <password>test</password>
+                                <url>jdbc:postgresql://localhost/test</url>
+                                <user>thomas</user>
+                                <password>thomas</password>
                             </jdbc>
 
                             <!-- Generator parameters -->
@@ -142,10 +142,19 @@
                                     <name>org.jooq.util.postgres.PostgresDatabase</name>
                                     <includes>.*</includes>
                                     <excludes></excludes>
-                                    <inputSchema>public</inputSchema>
+                                    <schemata>
+                                        <schema>
+                                            <inputSchema>public</inputSchema>
+                                            <outputSchema>public</outputSchema>
+                                        </schema>
+                                        <schema>
+                                            <inputSchema>tenant_default</inputSchema>
+                                            <outputSchema>tenant</outputSchema>
+                                        </schema>
+                                    </schemata>
                                 </database>
                                 <target>
-                                    <packageName>org.jooq.util.maven.example</packageName>
+                                    <packageName>de.eiswind.vaadin.datalayer</packageName>
                                     <directory>src/main/generated/java</directory>
                                 </target>
                             </generator>
