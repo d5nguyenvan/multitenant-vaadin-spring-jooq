@@ -27,10 +27,11 @@
             <version>3.6.1</version>
         </dependency>
         <dependency>
+            <!-- we have this one only to resolve the namespaces in the ide. lb is not intended to run automagically by now-->
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>3.3.3</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

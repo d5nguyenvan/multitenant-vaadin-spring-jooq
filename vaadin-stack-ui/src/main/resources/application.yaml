@@ -4,15 +4,7 @@ spring:
     url: jdbc:postgresql://localhost/test
     username: master
     password: master
-  jpa:
-    hibernate:
-      ddlAuto: none
-liquibase:
-  changeLog: classpath:/db/changelog.tenant/db.changelog.tenant-master.xml
-  contexts: development
-  url: jdbc:postgresql://localhost/test
-  user: thomas
-  password: thomas
+
 
 tenant:
   tenant-datasource:
