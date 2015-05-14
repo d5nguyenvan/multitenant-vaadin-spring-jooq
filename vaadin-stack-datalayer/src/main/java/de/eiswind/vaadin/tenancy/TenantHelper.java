@@ -1,11 +1,13 @@
 package de.eiswind.vaadin.tenancy;
 
 import com.zaxxer.hikari.HikariConfig;
-import de.eiswind.vaadin.datalayer.public_.tables.records.TenantRecord;
+import de.eiswind.vaadin.datalayer.tables.interfaces.ITenant;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Properties;
+
+
 
 /**
  * Created by thomas on 09.05.15.
@@ -25,7 +27,7 @@ import java.util.Properties;
 
 
 
-    /* package*/ HikariConfig toHikariConfig(TenantRecord tenant) {
+    /* package*/ HikariConfig toHikariConfig(ITenant tenant) {
         Properties props = new Properties();
 
         props.setProperty("user", tenant.getUser());

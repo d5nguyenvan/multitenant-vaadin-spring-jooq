@@ -6,12 +6,11 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 
-    <changeSet author="thomas" id="${db.schema}-create-table-user">
-        <createTable schemaName="${db.schema}"
-                     tableName="user">
+    <changeSet author="thomas" id="create-table-user">
+        <createTable tableName="user" schemaName="public">
 
-            <column name="id" type="bigserial">
-                <constraints nullable="false" primaryKey="true"/>
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="user_name" type="varchar(255)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="uk_user_user_name"/>
@@ -25,17 +24,5 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="thomas" id="${db.schema}-create-user-view">
-        <createView schemaName="${db.schema}"
-                    viewName="v_user">
-            select user_name, password_hash from ${db.schema}.user where active=true
-        </createView>
 
-    </changeSet>
-    <!-- the master user can read users from all schemas for login time -->
-    <changeSet author="thomas" id="${db.schema}-grant-user-view">
-        <sql>
-            grant select on ${db.schema}.v_user to ${db.master}
-        </sql>
-    </changeSet>
 </databaseChangeLog>

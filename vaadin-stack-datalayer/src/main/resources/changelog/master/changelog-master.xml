@@ -5,6 +5,8 @@
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
+    <property name="db.master" value="master"/>
+    <property name="db.master.password" value="master"/>
 
     <include file="000.create-table-tenant.xml" relativeToChangelogFile="true"/>
     <include file="001.create-user-and-schema.xml" relativeToChangelogFile="true"/>

@@ -7,13 +7,18 @@
 
 
 
-    <changeSet author="thomas" id="public-create-master-user">
+    <changeSet author="thomas" id="public-create-master-user" dbms="postgresql">
         <sql>
             create role ${db.master} WITH
             NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN ENCRYPTED PASSWORD' ${db.master.password}';
         </sql>
     </changeSet>
-    <changeSet author="thomas" id="public-grant-public-access-to-master">
+    <changeSet author="thomas" id="public-create-master-user" dbms="hsqldb">
+        <sql>
+            create user ${db.master} PASSWORD' ${db.master.password}';
+        </sql>
+    </changeSet>
+    <changeSet author="thomas" id="public-grant-public-access-to-master" dbms="postgresql">
         <sql>
             grant all privileges on all tables in schema public to ${db.master}
 

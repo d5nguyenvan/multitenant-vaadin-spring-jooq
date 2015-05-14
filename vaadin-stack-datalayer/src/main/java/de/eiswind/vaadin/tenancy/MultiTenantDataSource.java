@@ -2,7 +2,7 @@ package de.eiswind.vaadin.tenancy;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import de.eiswind.vaadin.datalayer.public_.tables.records.TenantRecord;
+import de.eiswind.vaadin.datalayer.tables.records.TenantRecord;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import static de.eiswind.vaadin.datalayer.public_.Tables.TENANT;
+import static de.eiswind.vaadin.datalayer.Tables.TENANT;
 
 /**
  * Created by thomas on 09.05.15.

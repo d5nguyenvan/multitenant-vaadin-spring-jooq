@@ -6,12 +6,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 
-    <property name="db.schema" value="tenant_default"/>
-    <property name="db.password" value="tenant_default"/>
-    <property name="db.admin" value="thomas"/>
-
-
-    <include file="changelog-master.xml" relativeToChangelogFile="true"/>
-    <include file="../tenant/changelog-tenant-master.xml" relativeToChangelogFile="true"/>
+    <changeSet author="thomas" id="${db.schema}-create-schema-user">
+        <sql>
+            create table ${db.schema}.user INHERITS (public.user);
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>

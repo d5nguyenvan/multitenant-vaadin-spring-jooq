@@ -11,6 +11,11 @@
 
     <artifactId>vaadin-stack-datalayer</artifactId>
 
+    <properties>
+        <dbpath>${project.build.directory}/liquibase/db;shutdown=true</dbpath>
+        <hsqldb.jdbcUrl>jdbc:hsqldb:${dbpath}</hsqldb.jdbcUrl>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -51,7 +56,112 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>3.3.3</version>
+                <configuration>
+                    <changeLogFile>src/main/resources/changelog/master/changelog-master.xml</changeLogFile>
+                    <driver>org.hsqldb.jdbc.JDBCDriver</driver>
+                    <url>${hsqldb.jdbcUrl}</url>
+                    <username>sa</username>
+                    <password></password>
+                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                    <liquibaseShouldRun>true</liquibaseShouldRun>
+                </configuration>
 
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>update</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.hsqldb</groupId>
+                        <artifactId>hsqldb</artifactId>
+                        <version>2.3.2</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+
+                <!-- Specify the maven code generator plugin -->
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <version>3.6.1</version>
+
+                <!-- The plugin should hook into the generate goal -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <!-- Manage the plugin's dependency. In this example, we'll use a PostgreSQL database -->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.hsqldb</groupId>
+                        <artifactId>hsqldb</artifactId>
+                        <version>2.3.2</version>
+                    </dependency>
+                </dependencies>
+
+                <!-- Specify the plugin configuration.
+                     The configuration format is the same as for the standalone code generator -->
+                <configuration>
+
+                    <!-- JDBC connection parameters -->
+                    <jdbc>
+                        <driver>org.hsqldb.jdbc.JDBCDriver</driver>
+                        <url>${hsqldb.jdbcUrl}</url>
+                        <user>sa</user>
+                        <password></password>
+                    </jdbc>
+
+                    <!-- Generator parameters -->
+                    <generator>
+                        <name>org.jooq.util.DefaultGenerator</name>
+                        <database>
+                            <name>org.jooq.util.hsqldb.HSQLDBDatabase</name>
+                            <includes>.*</includes>
+                            <excludes></excludes>
+                            <schemata>
+                                <schema>
+                                    <inputSchema>PUBLIC</inputSchema>
+                                    <outputSchema>public</outputSchema>
+                                </schema>
+
+                            </schemata>
+                        </database>
+                        <generate>
+                            <relations>true</relations>
+
+
+                            <deprecated>false</deprecated>
+                            <instanceFields>true</instanceFields>
+                            <generatedAnnotation>true</generatedAnnotation>
+
+                            <records>true</records>
+                            <pojos>true</pojos>
+                            <immutablePojos>false</immutablePojos>
+                            <interfaces>true</interfaces>
+                            <daos>false</daos>
+
+
+                            <validationAnnotations>true</validationAnnotations>
+                        </generate>
+                        <target>
+                            <packageName>de.eiswind.vaadin.datalayer</packageName>
+                            <directory>src/main/generated/java</directory>
+                        </target>
+                    </generator>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -80,7 +190,7 @@
                         <fileset>
                             <directory>src/main/generated/java</directory>
                             <includes>
-                                <include>**/*.java</include>
+                                <include>**/*</include>
 
                             </includes>
                             <followSymlinks>false</followSymlinks>
@@ -90,114 +200,5 @@
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>codegen</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.liquibase</groupId>
-                        <artifactId>liquibase-maven-plugin</artifactId>
-                        <version>3.3.3</version>
-                        <configuration>
-                            <changeLogFile>src/main/resources/changelog/master/changelog-generator.xml</changeLogFile>
-                            <driver>org.postgresql.Driver</driver>
-                            <url>jdbc:postgresql://localhost/test</url>
-                            <username>thomas</username>
-                            <password>thomas</password>
-                            <liquibaseShouldRun>true</liquibaseShouldRun>
-                        </configuration>
 
-                        <executions>
-                            <execution>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>update</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-
-                        <!-- Specify the maven code generator plugin -->
-                        <groupId>org.jooq</groupId>
-                        <artifactId>jooq-codegen-maven</artifactId>
-                        <version>3.6.1</version>
-
-                        <!-- The plugin should hook into the generate goal -->
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>generate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-
-                        <!-- Manage the plugin's dependency. In this example, we'll use a PostgreSQL database -->
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.postgresql</groupId>
-                                <artifactId>postgresql</artifactId>
-                                <version>${postgres.driver.version}</version>
-                            </dependency>
-                        </dependencies>
-
-                        <!-- Specify the plugin configuration.
-                             The configuration format is the same as for the standalone code generator -->
-                        <configuration>
-
-                            <!-- JDBC connection parameters -->
-                            <jdbc>
-                                <driver>org.postgresql.Driver</driver>
-                                <url>jdbc:postgresql://localhost/test</url>
-                                <user>thomas</user>
-                                <password>thomas</password>
-                            </jdbc>
-
-                            <!-- Generator parameters -->
-                            <generator>
-                                <name>org.jooq.util.DefaultGenerator</name>
-                                <database>
-                                    <name>org.jooq.util.postgres.PostgresDatabase</name>
-                                    <includes>.*</includes>
-                                    <excludes></excludes>
-                                    <schemata>
-                                        <schema>
-                                            <inputSchema>public</inputSchema>
-                                            <outputSchema>public</outputSchema>
-                                        </schema>
-                                        <schema>
-                                            <inputSchema>tenant_default</inputSchema>
-                                            <outputSchema>tenant</outputSchema>
-                                        </schema>
-                                    </schemata>
-                                </database>
-                                <generate>
-                                    <relations>true</relations>
-
-
-                                     <deprecated>false</deprecated>
-                                    <instanceFields>true</instanceFields>
-                                    <generatedAnnotation>true</generatedAnnotation>
-
-                                    <records>true</records>
-                                    <pojos>false</pojos>
-                                    <immutablePojos>false</immutablePojos>
-                                    <interfaces>false</interfaces>
-                                    <daos>false</daos>
-
-
-                                    <validationAnnotations>true</validationAnnotations>
-                                </generate>
-                                <target>
-                                    <packageName>de.eiswind.vaadin.datalayer</packageName>
-                                    <directory>src/main/generated/java</directory>
-                                </target>
-                            </generator>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
