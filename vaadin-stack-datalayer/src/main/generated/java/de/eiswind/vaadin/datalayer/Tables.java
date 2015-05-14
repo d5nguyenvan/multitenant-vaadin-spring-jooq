@@ -4,15 +4,14 @@
 package de.eiswind.vaadin.datalayer;
 
 
-import de.eiswind.vaadin.datalayer.tables.Databasechangelog;
-import de.eiswind.vaadin.datalayer.tables.Databasechangeloglock;
 import de.eiswind.vaadin.datalayer.tables.Tenant;
+import de.eiswind.vaadin.datalayer.tables.User;
 
 import javax.annotation.Generated;
 
 
 /**
- * Convenience access to all tables in public
+ * Convenience access to all tables in master
  */
 @Generated(
 	value = {
@@ -25,17 +24,12 @@ import javax.annotation.Generated;
 public class Tables {
 
 	/**
-	 * The table public.DATABASECHANGELOG
-	 */
-	public static final Databasechangelog DATABASECHANGELOG = de.eiswind.vaadin.datalayer.tables.Databasechangelog.DATABASECHANGELOG;
-
-	/**
-	 * The table public.DATABASECHANGELOGLOCK
-	 */
-	public static final Databasechangeloglock DATABASECHANGELOGLOCK = de.eiswind.vaadin.datalayer.tables.Databasechangeloglock.DATABASECHANGELOGLOCK;
-
-	/**
-	 * The table public.TENANT
+	 * The table master.tenant
 	 */
 	public static final Tenant TENANT = de.eiswind.vaadin.datalayer.tables.Tenant.TENANT;
+
+	/**
+	 * The table master.user
+	 */
+	public static final User USER = de.eiswind.vaadin.datalayer.tables.User.USER;
 }

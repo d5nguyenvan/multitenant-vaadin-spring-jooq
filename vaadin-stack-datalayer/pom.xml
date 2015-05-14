@@ -36,7 +36,7 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>3.3.3</version>
-            <scope>provided</scope>
+
         </dependency>
 
         <dependency>
@@ -132,8 +132,8 @@
                             <excludes></excludes>
                             <schemata>
                                 <schema>
-                                    <inputSchema>PUBLIC</inputSchema>
-                                    <outputSchema>public</outputSchema>
+                                    <inputSchema>master</inputSchema>
+                                    <outputSchema>master</outputSchema>
                                 </schema>
 
                             </schemata>

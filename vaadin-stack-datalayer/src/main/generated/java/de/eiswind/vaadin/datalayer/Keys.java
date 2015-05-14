@@ -4,10 +4,10 @@
 package de.eiswind.vaadin.datalayer;
 
 
-import de.eiswind.vaadin.datalayer.tables.Databasechangeloglock;
 import de.eiswind.vaadin.datalayer.tables.Tenant;
-import de.eiswind.vaadin.datalayer.tables.records.DatabasechangeloglockRecord;
+import de.eiswind.vaadin.datalayer.tables.User;
 import de.eiswind.vaadin.datalayer.tables.records.TenantRecord;
+import de.eiswind.vaadin.datalayer.tables.records.UserRecord;
 
 import javax.annotation.Generated;
 
@@ -17,7 +17,7 @@ import org.jooq.impl.AbstractKeys;
 
 
 /**
- * A class modelling foreign key relationships between tables of the <code>public</code> 
+ * A class modelling foreign key relationships between tables of the <code>master</code> 
  * schema
  */
 @Generated(
@@ -35,15 +35,17 @@ public class Keys {
 	// -------------------------------------------------------------------------
 
 	public static final Identity<TenantRecord, Long> IDENTITY_TENANT = Identities0.IDENTITY_TENANT;
+	public static final Identity<UserRecord, Long> IDENTITY_USER = Identities0.IDENTITY_USER;
 
 	// -------------------------------------------------------------------------
 	// UNIQUE and PRIMARY KEY definitions
 	// -------------------------------------------------------------------------
 
-	public static final UniqueKey<DatabasechangeloglockRecord> PK_DATABASECHANGELOGLOCK = UniqueKeys0.PK_DATABASECHANGELOGLOCK;
 	public static final UniqueKey<TenantRecord> PK_TENANT = UniqueKeys0.PK_TENANT;
 	public static final UniqueKey<TenantRecord> UK_TENANT_TENANT_NAME = UniqueKeys0.UK_TENANT_TENANT_NAME;
 	public static final UniqueKey<TenantRecord> UK_TENANT_SCHEMA_NAME = UniqueKeys0.UK_TENANT_SCHEMA_NAME;
+	public static final UniqueKey<UserRecord> PK_USER = UniqueKeys0.PK_USER;
+	public static final UniqueKey<UserRecord> UK_USER_USER_NAME = UniqueKeys0.UK_USER_USER_NAME;
 
 	// -------------------------------------------------------------------------
 	// FOREIGN KEY definitions
@@ -56,12 +58,14 @@ public class Keys {
 
 	private static class Identities0 extends AbstractKeys {
 		public static Identity<TenantRecord, Long> IDENTITY_TENANT = createIdentity(Tenant.TENANT, Tenant.TENANT.ID);
+		public static Identity<UserRecord, Long> IDENTITY_USER = createIdentity(User.USER, User.USER.ID);
 	}
 
 	private static class UniqueKeys0 extends AbstractKeys {
-		public static final UniqueKey<DatabasechangeloglockRecord> PK_DATABASECHANGELOGLOCK = createUniqueKey(Databasechangeloglock.DATABASECHANGELOGLOCK, Databasechangeloglock.DATABASECHANGELOGLOCK.ID);
 		public static final UniqueKey<TenantRecord> PK_TENANT = createUniqueKey(Tenant.TENANT, Tenant.TENANT.ID);
 		public static final UniqueKey<TenantRecord> UK_TENANT_TENANT_NAME = createUniqueKey(Tenant.TENANT, Tenant.TENANT.TENANT_NAME);
 		public static final UniqueKey<TenantRecord> UK_TENANT_SCHEMA_NAME = createUniqueKey(Tenant.TENANT, Tenant.TENANT.SCHEMA);
+		public static final UniqueKey<UserRecord> PK_USER = createUniqueKey(User.USER, User.USER.ID);
+		public static final UniqueKey<UserRecord> UK_USER_USER_NAME = createUniqueKey(User.USER, User.USER.USER_NAME);
 	}
 }

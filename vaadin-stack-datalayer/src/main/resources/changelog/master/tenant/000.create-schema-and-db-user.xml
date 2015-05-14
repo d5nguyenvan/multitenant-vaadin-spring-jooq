@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<databaseChangeLog
+<databaseChangeLog objectQuotingStrategy="QUOTE_ALL_OBJECTS"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 
-    <changeSet author="thomas" id="${db.schema}-create-schema-user">
+    <changeSet author="thomas" id="${db.schema}-create-schema-user" >
         <sql>
-            create role ${db.schema} WITH
-            NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN ENCRYPTED PASSWORD' ${db.password}';
-            create schema if not exists ${db.schema} authorization ${db.schema};
+            create role "${db.schema}" WITH
+            NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN ENCRYPTED PASSWORD '${db.password}';
+
         </sql>
     </changeSet>
     <changeSet author="thomas" id="${db.schema}-create-tenant-schema">
         <sql>
-            create schema if not exists ${db.schema} authorization ${db.schema};
+            create schema if not exists "${db.schema}" authorization "${db.schema}";
         </sql>
     </changeSet>
 
-    <changeSet author="thomas" id="${db.schema}-grant-root-access">
-        <sql>
-            grant all privileges on all tables in schema ${db.schema} to ${db.admin}
 
-        </sql>
-    </changeSet>
 </databaseChangeLog>

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<databaseChangeLog
+<databaseChangeLog objectQuotingStrategy="QUOTE_ALL_OBJECTS"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="db.master" value="master"/>
-    <property name="db.master.password" value="master"/>
+    <property name="db.admin" value="thomas"/>
+    <property name="db.schema" value="master"/>
 
-    <include file="000.create-table-tenant.xml" relativeToChangelogFile="true"/>
-    <include file="001.create-user-and-schema.xml" relativeToChangelogFile="true"/>
+
+    <include file="000.create-user-and-schema.xml" relativeToChangelogFile="true"/>
+    <include file="001.create-table-tenant.xml" relativeToChangelogFile="true"/>
+    <include file="002.create-table-user.xml" relativeToChangelogFile="true"/>
+    <include file="tenant/002.constraints-child-table-user.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

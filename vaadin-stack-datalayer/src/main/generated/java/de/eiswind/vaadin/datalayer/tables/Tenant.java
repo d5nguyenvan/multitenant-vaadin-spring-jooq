@@ -5,7 +5,7 @@ package de.eiswind.vaadin.datalayer.tables;
 
 
 import de.eiswind.vaadin.datalayer.Keys;
-import de.eiswind.vaadin.datalayer.Public;
+import de.eiswind.vaadin.datalayer.Master;
 import de.eiswind.vaadin.datalayer.tables.records.TenantRecord;
 
 import java.util.Arrays;
@@ -34,10 +34,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tenant extends TableImpl<TenantRecord> {
 
-	private static final long serialVersionUID = 1914167281;
+	private static final long serialVersionUID = -780214257;
 
 	/**
-	 * The reference instance of <code>public.TENANT</code>
+	 * The reference instance of <code>master.tenant</code>
 	 */
 	public static final Tenant TENANT = new Tenant();
 
@@ -50,49 +50,29 @@ public class Tenant extends TableImpl<TenantRecord> {
 	}
 
 	/**
-	 * The column <code>public.TENANT.ID</code>.
+	 * The column <code>master.tenant.id</code>.
 	 */
-	public final TableField<TenantRecord, Long> ID = createField("ID", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+	public final TableField<TenantRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
 	/**
-	 * The column <code>public.TENANT.TENANT_NAME</code>.
+	 * The column <code>master.tenant.tenant_name</code>.
 	 */
-	public final TableField<TenantRecord, String> TENANT_NAME = createField("TENANT_NAME", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
+	public final TableField<TenantRecord, String> TENANT_NAME = createField("tenant_name", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
 
 	/**
-	 * The column <code>public.TENANT.SCHEMA</code>.
+	 * The column <code>master.tenant.schema</code>.
 	 */
-	public final TableField<TenantRecord, String> SCHEMA = createField("SCHEMA", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
+	public final TableField<TenantRecord, String> SCHEMA = createField("schema", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
 
 	/**
-	 * The column <code>public.TENANT.USER</code>.
-	 */
-	public final TableField<TenantRecord, String> USER = createField("USER", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
-
-	/**
-	 * The column <code>public.TENANT.PASSWORD</code>.
-	 */
-	public final TableField<TenantRecord, String> PASSWORD = createField("PASSWORD", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
-
-	/**
-	 * The column <code>public.TENANT.MIN_IDLE</code>.
-	 */
-	public final TableField<TenantRecord, Integer> MIN_IDLE = createField("MIN_IDLE", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");
-
-	/**
-	 * The column <code>public.TENANT.MAX_CONNECTIONS</code>.
-	 */
-	public final TableField<TenantRecord, Integer> MAX_CONNECTIONS = createField("MAX_CONNECTIONS", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");
-
-	/**
-	 * Create a <code>public.TENANT</code> table reference
+	 * Create a <code>master.tenant</code> table reference
 	 */
 	public Tenant() {
-		this("TENANT", null);
+		this("tenant", null);
 	}
 
 	/**
-	 * Create an aliased <code>public.TENANT</code> table reference
+	 * Create an aliased <code>master.tenant</code> table reference
 	 */
 	public Tenant(String alias) {
 		this(alias, TENANT);
@@ -103,7 +83,7 @@ public class Tenant extends TableImpl<TenantRecord> {
 	}
 
 	private Tenant(String alias, Table<TenantRecord> aliased, Field<?>[] parameters) {
-		super(alias, Public.PUBLIC, aliased, parameters, "");
+		super(alias, Master.MASTER, aliased, parameters, "");
 	}
 
 	/**

@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<databaseChangeLog
+<databaseChangeLog objectQuotingStrategy="QUOTE_ALL_OBJECTS"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 
-    <changeSet author="thomas" id="create-table-user">
-        <createTable tableName="user" schemaName="public">
-
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" />
-            </column>
-            <column name="user_name" type="varchar(255)">
-                <constraints nullable="false" unique="true" uniqueConstraintName="uk_user_user_name"/>
-            </column>
-            <column name="password_hash" type="varchar(2048)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="active" type="boolean" defaultValue="false">
-                <constraints nullable="false" />
-            </column>
+    <changeSet author="thomas" id="master-create-table-user">
+        <createTable tableName="user" schemaName="master" >
+            <column name="id" type="BIGINT" autoIncrement="true"/>
+            <column name="user_name" type="varchar(255)"/>
+            <column name="password_hash" type="varchar(2048)"/>
+            <column name="active" type="boolean" defaultValue="false"/>
         </createTable>
     </changeSet>
 

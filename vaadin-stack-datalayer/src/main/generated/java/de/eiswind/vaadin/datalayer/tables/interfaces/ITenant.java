@@ -25,85 +25,39 @@ import javax.validation.constraints.Size;
 public interface ITenant extends Serializable {
 
 	/**
-	 * Setter for <code>public.TENANT.ID</code>.
+	 * Setter for <code>master.tenant.id</code>.
 	 */
 	public void setId(Long value);
 
 	/**
-	 * Getter for <code>public.TENANT.ID</code>.
+	 * Getter for <code>master.tenant.id</code>.
 	 */
 	@NotNull
 	public Long getId();
 
 	/**
-	 * Setter for <code>public.TENANT.TENANT_NAME</code>.
+	 * Setter for <code>master.tenant.tenant_name</code>.
 	 */
 	public void setTenantName(String value);
 
 	/**
-	 * Getter for <code>public.TENANT.TENANT_NAME</code>.
+	 * Getter for <code>master.tenant.tenant_name</code>.
 	 */
 	@NotNull
 	@Size(max = 100)
 	public String getTenantName();
 
 	/**
-	 * Setter for <code>public.TENANT.SCHEMA</code>.
+	 * Setter for <code>master.tenant.schema</code>.
 	 */
 	public void setSchema(String value);
 
 	/**
-	 * Getter for <code>public.TENANT.SCHEMA</code>.
+	 * Getter for <code>master.tenant.schema</code>.
 	 */
 	@NotNull
 	@Size(max = 100)
 	public String getSchema();
-
-	/**
-	 * Setter for <code>public.TENANT.USER</code>.
-	 */
-	public void setUser(String value);
-
-	/**
-	 * Getter for <code>public.TENANT.USER</code>.
-	 */
-	@NotNull
-	@Size(max = 100)
-	public String getUser();
-
-	/**
-	 * Setter for <code>public.TENANT.PASSWORD</code>.
-	 */
-	public void setPassword(String value);
-
-	/**
-	 * Getter for <code>public.TENANT.PASSWORD</code>.
-	 */
-	@NotNull
-	@Size(max = 100)
-	public String getPassword();
-
-	/**
-	 * Setter for <code>public.TENANT.MIN_IDLE</code>.
-	 */
-	public void setMinIdle(Integer value);
-
-	/**
-	 * Getter for <code>public.TENANT.MIN_IDLE</code>.
-	 */
-	@NotNull
-	public Integer getMinIdle();
-
-	/**
-	 * Setter for <code>public.TENANT.MAX_CONNECTIONS</code>.
-	 */
-	public void setMaxConnections(Integer value);
-
-	/**
-	 * Getter for <code>public.TENANT.MAX_CONNECTIONS</code>.
-	 */
-	@NotNull
-	public Integer getMaxConnections();
 
 	// -------------------------------------------------------------------------
 	// FROM and INTO

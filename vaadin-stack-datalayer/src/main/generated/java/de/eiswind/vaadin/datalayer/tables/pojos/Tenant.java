@@ -24,15 +24,11 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tenant implements ITenant {
 
-	private static final long serialVersionUID = 1127498772;
+	private static final long serialVersionUID = 2136312482;
 
-	private Long    id;
-	private String  tenantName;
-	private String  schema;
-	private String  user;
-	private String  password;
-	private Integer minIdle;
-	private Integer maxConnections;
+	private Long   id;
+	private String tenantName;
+	private String schema;
 
 	public Tenant() {}
 
@@ -40,28 +36,16 @@ public class Tenant implements ITenant {
 		this.id = value.id;
 		this.tenantName = value.tenantName;
 		this.schema = value.schema;
-		this.user = value.user;
-		this.password = value.password;
-		this.minIdle = value.minIdle;
-		this.maxConnections = value.maxConnections;
 	}
 
 	public Tenant(
-		Long    id,
-		String  tenantName,
-		String  schema,
-		String  user,
-		String  password,
-		Integer minIdle,
-		Integer maxConnections
+		Long   id,
+		String tenantName,
+		String schema
 	) {
 		this.id = id;
 		this.tenantName = tenantName;
 		this.schema = schema;
-		this.user = user;
-		this.password = password;
-		this.minIdle = minIdle;
-		this.maxConnections = maxConnections;
 	}
 
 	@NotNull
@@ -99,52 +83,6 @@ public class Tenant implements ITenant {
 		this.schema = schema;
 	}
 
-	@NotNull
-	@Size(max = 100)
-	@Override
-	public String getUser() {
-		return this.user;
-	}
-
-	@Override
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	@NotNull
-	@Size(max = 100)
-	@Override
-	public String getPassword() {
-		return this.password;
-	}
-
-	@Override
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	@NotNull
-	@Override
-	public Integer getMinIdle() {
-		return this.minIdle;
-	}
-
-	@Override
-	public void setMinIdle(Integer minIdle) {
-		this.minIdle = minIdle;
-	}
-
-	@NotNull
-	@Override
-	public Integer getMaxConnections() {
-		return this.maxConnections;
-	}
-
-	@Override
-	public void setMaxConnections(Integer maxConnections) {
-		this.maxConnections = maxConnections;
-	}
-
 	// -------------------------------------------------------------------------
 	// FROM and INTO
 	// -------------------------------------------------------------------------
@@ -157,10 +95,6 @@ public class Tenant implements ITenant {
 		setId(from.getId());
 		setTenantName(from.getTenantName());
 		setSchema(from.getSchema());
-		setUser(from.getUser());
-		setPassword(from.getPassword());
-		setMinIdle(from.getMinIdle());
-		setMaxConnections(from.getMaxConnections());
 	}
 
 	/**

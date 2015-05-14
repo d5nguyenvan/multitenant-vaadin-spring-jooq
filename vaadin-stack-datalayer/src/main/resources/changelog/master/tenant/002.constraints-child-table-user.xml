@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<databaseChangeLog objectQuotingStrategy="QUOTE_ALL_OBJECTS"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+
+
+    <changeSet id="${db.schema}-add-constraints-to-user" author="thomas" >
+
+        <addPrimaryKey schemaName="${db.schema}" tableName="user" columnNames="id" constraintName="pk_user"/>
+        <addNotNullConstraint schemaName="${db.schema}" tableName="user" columnName="user_name"/>
+        <addUniqueConstraint schemaName="${db.schema}" tableName="user" columnNames="user_name" constraintName="uk_user_user_name"/>
+        <addNotNullConstraint schemaName="${db.schema}" tableName="user" columnName="password_hash"/>
+        <addNotNullConstraint schemaName="${db.schema}" tableName="user" columnName="active" defaultNullValue="false"/>
+    </changeSet>
+</databaseChangeLog>

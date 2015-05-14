@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<databaseChangeLog
+<databaseChangeLog objectQuotingStrategy="QUOTE_ALL_OBJECTS"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
@@ -8,7 +8,7 @@
 
 
 <changeSet author="thomas" id="public-create-table-tenant">
-        <createTable schemaName="public"
+        <createTable schemaName="master"
                      tableName="tenant">
 
             <column name="id" type="BIGINT" autoIncrement="true">
@@ -20,29 +20,16 @@
             <column name="schema" type="varchar(100)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="uk_tenant_schema_name"/>
             </column>
-            <column name="user" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="password" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="min_idle" type="int" defaultValue="1">
-                <constraints nullable="false" />
-            </column>
-            <column name="max_connections" type="int" defaultValue="5">
-                <constraints nullable="false"/>
-            </column>
+
         </createTable>
     </changeSet>
 
     <changeSet author="thomas" id="public-insert-default-tenant">
-        <insert tableName="tenant" schemaName="public">
-            <column name="tenant_name" value="default"/>
-
-            <column name="schema" value="${db.schema}"/>
-            <column name="user" value="${db.schema}"/>
-            <column name="password" value="${db.password}"/>
+        <insert tableName="tenant" schemaName="master">
+            <column name="tenant_name" value="default_tenant"/>
+            <column name="schema" value="default_tenant"/>
         </insert>
     </changeSet>
+
 
 </databaseChangeLog>
