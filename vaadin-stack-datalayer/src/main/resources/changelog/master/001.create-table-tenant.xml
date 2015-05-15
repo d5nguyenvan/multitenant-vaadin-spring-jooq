@@ -20,6 +20,15 @@
             <column name="schema" type="varchar(100)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="uk_tenant_schema_name"/>
             </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="min_idle" type="int" defaultValue="1">
+                <constraints nullable="false"  />
+            </column>
+            <column name="max_connections" type="int" defaultValue="5">
+                <constraints nullable="false"  />
+            </column>
 
         </createTable>
     </changeSet>
@@ -28,6 +37,7 @@
         <insert tableName="tenant" schemaName="master">
             <column name="tenant_name" value="default_tenant"/>
             <column name="schema" value="default_tenant"/>
+            <column name="password" value="default_tenant123"/>
         </insert>
     </changeSet>
 

@@ -6,6 +6,7 @@ package de.eiswind.vaadin.datalayer;
 
 import de.eiswind.vaadin.datalayer.tables.Tenant;
 import de.eiswind.vaadin.datalayer.tables.User;
+import de.eiswind.vaadin.datalayer.tables.VUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +31,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Master extends SchemaImpl {
 
-	private static final long serialVersionUID = 294331552;
+	private static final long serialVersionUID = -1582249884;
 
 	/**
 	 * The reference instance of <code>master</code>
@@ -54,6 +55,7 @@ public class Master extends SchemaImpl {
 	private final List<Table<?>> getTables0() {
 		return Arrays.<Table<?>>asList(
 			Tenant.TENANT,
-			User.USER);
+			User.USER,
+			VUser.V_USER);
 	}
 }

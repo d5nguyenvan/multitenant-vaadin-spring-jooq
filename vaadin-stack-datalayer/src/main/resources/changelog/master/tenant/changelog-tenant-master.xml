@@ -13,4 +13,5 @@
     <include file="000.create-schema-and-db-user.xml" relativeToChangelogFile="true"/>
     <include file="001.create-child-table-user.xml" relativeToChangelogFile="true"/>
     <include file="002.constraints-child-table-user.xml" relativeToChangelogFile="true"/>
+    <include file="003.insert-admin-user.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

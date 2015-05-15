@@ -11,6 +11,7 @@ import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,7 @@ public class LiquibaseRunner {
     private static Logger LOG = LoggerFactory.getLogger(LiquibaseRunner.class);
 
     @Autowired
+    @Qualifier("master")
     private DataSource masterDataSource;
 
     @PostConstruct
@@ -44,7 +46,7 @@ public class LiquibaseRunner {
                 LOG.info("Migrating schema for tenant " + tenant.getTenantName());
                 Liquibase migrator = new Liquibase("/changelog/master/tenant/changelog-tenant-master.xml", new ClassLoaderResourceAccessor(), new JdbcConnection(masterDataSource.getConnection()));
                 migrator.setChangeLogParameter("db.schema", tenant.getTenantName());
-
+                migrator.setChangeLogParameter("db.password", tenant.getPassword());
                 migrator.update("tenant");
             } catch (SQLException | LiquibaseException e) {
                 LOG.error("Liquibase FAILED !!", e);

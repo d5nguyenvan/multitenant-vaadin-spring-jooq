@@ -5,13 +5,11 @@
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="db.admin" value="thomas"/>
-    <property name="db.schema" value="master"/>
-
-
-    <include file="000.create-user-and-schema.xml" relativeToChangelogFile="true"/>
-    <include file="001.create-table-tenant.xml" relativeToChangelogFile="true"/>
-    <include file="002.create-table-user.xml" relativeToChangelogFile="true"/>
-    <include file="tenant/002.constraints-child-table-user.xml" relativeToChangelogFile="true"/>
-    <include file="003.create-all-users-view.xml" relativeToChangelogFile="true"/>
+    <changeSet author="thomas" id="${db.schema}-insert-admin-user">
+        <insert tableName="user" schemaName="${db.schema}">
+            <column name="user_name" value="admin"/>
+            <column name="active" value="true"/>
+            <column name="password_hash" value="admin123"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

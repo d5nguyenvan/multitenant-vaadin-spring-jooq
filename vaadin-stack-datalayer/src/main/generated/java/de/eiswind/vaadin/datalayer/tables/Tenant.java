@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tenant extends TableImpl<TenantRecord> {
 
-	private static final long serialVersionUID = -780214257;
+	private static final long serialVersionUID = -799714637;
 
 	/**
 	 * The reference instance of <code>master.tenant</code>
@@ -63,6 +63,21 @@ public class Tenant extends TableImpl<TenantRecord> {
 	 * The column <code>master.tenant.schema</code>.
 	 */
 	public final TableField<TenantRecord, String> SCHEMA = createField("schema", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
+
+	/**
+	 * The column <code>master.tenant.password</code>.
+	 */
+	public final TableField<TenantRecord, String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
+
+	/**
+	 * The column <code>master.tenant.min_idle</code>.
+	 */
+	public final TableField<TenantRecord, Integer> MIN_IDLE = createField("min_idle", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>master.tenant.max_connections</code>.
+	 */
+	public final TableField<TenantRecord, Integer> MAX_CONNECTIONS = createField("max_connections", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>master.tenant</code> table reference

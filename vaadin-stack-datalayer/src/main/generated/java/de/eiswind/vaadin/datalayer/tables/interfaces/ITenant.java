@@ -59,6 +59,40 @@ public interface ITenant extends Serializable {
 	@Size(max = 100)
 	public String getSchema();
 
+	/**
+	 * Setter for <code>master.tenant.password</code>.
+	 */
+	public void setPassword(String value);
+
+	/**
+	 * Getter for <code>master.tenant.password</code>.
+	 */
+	@NotNull
+	@Size(max = 255)
+	public String getPassword();
+
+	/**
+	 * Setter for <code>master.tenant.min_idle</code>.
+	 */
+	public void setMinIdle(Integer value);
+
+	/**
+	 * Getter for <code>master.tenant.min_idle</code>.
+	 */
+	@NotNull
+	public Integer getMinIdle();
+
+	/**
+	 * Setter for <code>master.tenant.max_connections</code>.
+	 */
+	public void setMaxConnections(Integer value);
+
+	/**
+	 * Getter for <code>master.tenant.max_connections</code>.
+	 */
+	@NotNull
+	public Integer getMaxConnections();
+
 	// -------------------------------------------------------------------------
 	// FROM and INTO
 	// -------------------------------------------------------------------------

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<databaseChangeLog objectQuotingStrategy="QUOTE_ALL_OBJECTS"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <changeSet author="thomas" id="master-create-table-user" runOnChange="true" dbms="postgresql">
+        <sql>
+            create view "master"."v_user" as
+            select n.nspname as tenant, u.user_name, u.password_hash from master.user u left join pg_class p on u.TABLEOID = p.oid left join pg_catalog.pg_namespace n on n.OID =p.relnamespace where u.active=true;
+        </sql>
+    </changeSet>
+    <changeSet author="thomas" id="master-create-table-user" runOnChange="true" dbms="hsqldb">
+        <sql>
+            create view "master"."v_user" as
+            select 'default' as "tenant", u."user_name", u."password_hash" from "master"."user" u where u."active"=true;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

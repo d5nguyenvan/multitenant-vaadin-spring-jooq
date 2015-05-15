@@ -7,8 +7,12 @@ spring:
 
 liquibase:
   changeLog: classpath:/changelog/master/changelog-master.xml
-  contexts: development
   url: jdbc:postgresql://localhost/test
   user: thomas
   password: thomas
 
+tenant:
+  tenant-datasource:
+    database: test
+    port: 5328
+    host: localhost
