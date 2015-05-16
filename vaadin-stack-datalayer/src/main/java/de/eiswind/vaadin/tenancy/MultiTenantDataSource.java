@@ -2,13 +2,10 @@ package de.eiswind.vaadin.tenancy;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import de.eiswind.vaadin.datalayer.tables.records.TenantRecord;
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
+import de.eiswind.vaadin.datalayer.daos.master.TenantDao;
+import de.eiswind.vaadin.datalayer.tables.interfaces.ITenant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -16,33 +13,33 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
-
-import static de.eiswind.vaadin.datalayer.Tables.TENANT;
 
 /**
  * Created by thomas on 09.05.15.
  */
 
 @Component
-@Primary
+@Qualifier("no-tx")
 public class MultiTenantDataSource implements DataSource {
 
     @Autowired
-    @Qualifier("master")
-    private DataSource tenantMasterDataSource;
+    private TenantAuthentication authentication;
+
+    @Autowired
+    private TenantDao tenantDao;
 
     @Autowired
     private TenantHelper tenantHelper;
 
 
-
 //    @Autowired
 //    private CurrentTenantIdentifierResolver tenantIdentifierResolver;
 
-    private Map<String, DataSource> dataSourceMap = new HashMap<>();
+    private Map<String, DataSource> dataSourceMap = new ConcurrentHashMap<>();
 
     @Override
     public Connection getConnection() throws SQLException {
@@ -51,19 +48,16 @@ public class MultiTenantDataSource implements DataSource {
     }
 
     private DataSource getDataSource() {
-//        String tenant = tenantIdentifierResolver.resolveCurrentTenantIdentifier();
-        String tenant = "default_tenant";
-        DataSource ds = dataSourceMap.get(tenant);
-        if (ds != null) {
-            return ds;
-        }
-        synchronized (this) {
-            DSLContext dsl = DSL.using(tenantMasterDataSource, SQLDialect.POSTGRES_9_4);
-            TenantRecord tenantRecord= dsl.select().from(TENANT).where(TENANT.TENANT_NAME.eq(tenant)).fetchOne().into(TenantRecord.class);
-            HikariConfig config = tenantHelper.toHikariConfig(tenantRecord);
-            ds = new HikariDataSource(config);
-        }
-        return ds;
+
+        String tenantName = authentication.getTenant(); // will throw if not authenticated
+        return  dataSourceMap.computeIfAbsent(tenantName, (key)->{
+            Optional<ITenant> tenantOptional = tenantDao.findbyName(tenantName);
+            return tenantOptional.map(tenant -> {
+                HikariConfig config = tenantHelper.toHikariConfig(tenant);
+                return new HikariDataSource(config);
+            }).orElseThrow(() -> new IllegalStateException("This should never happen: Unknown tenant " + tenantName));
+        });
+
     }
 
     @Override

@@ -11,6 +11,13 @@
         <sql>
             create table ${db.schema}.user () INHERITS (master.user);
         </sql>
+
+    </changeSet>
+    <changeSet author="thomas" id="${db.schema}-owner-table-user" >
+        <sql>
+            alter table ${db.schema}.user owner to ${db.schema};
+        </sql>
+
     </changeSet>
 
 </databaseChangeLog>

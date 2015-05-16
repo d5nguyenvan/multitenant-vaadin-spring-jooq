@@ -9,6 +9,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import de.eiswind.vaadin.tenancy.TenantAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.vaadin.spring.security.VaadinSecurity;
@@ -86,11 +87,11 @@ public class LoginView extends VerticalLayout implements View {
         signin.addClickListener(event -> {
 
             try {
-
-                security.login(username.getValue(), password.getValue());
+                TenantAuthenticationToken token = new TenantAuthenticationToken(tenant.getValue(),username.getValue(),password.getValue());
+                security.login(token);
 
             } catch (AuthenticationException e) {
-                e.printStackTrace();
+               Notification.show("Login failed", Notification.Type.ERROR_MESSAGE);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,16 +1,24 @@
 package de.eiswind.vaadin.spring.security;
 
+import de.eiswind.vaadin.tenancy.TenantAuthentication;
+import de.eiswind.vaadin.tenancy.TenantAuthenticationToken;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
@@ -27,12 +35,35 @@ import org.vaadin.spring.security.web.authentication.VaadinAuthenticationSuccess
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+
+    @Bean(name ="currentToken")
+    TenantAuthentication currentToken() {
+
+        return ProxyFactory.getProxy(TenantAuthentication.class, new MethodInterceptor() {
+
+            @Override
+            public Object invoke(MethodInvocation invocation) throws Throwable {
+                SecurityContext securityContext = SecurityContextHolder.getContext();
+                TenantAuthenticationToken authentication = (TenantAuthenticationToken)securityContext.getAuthentication();
+                if (authentication == null) {
+                    throw new AuthenticationCredentialsNotFoundException("No authentication found in current security context");
+                }
+                return invocation.getMethod().invoke(authentication, invocation.getArguments());
+            }
+
+        });
+
+    }
+
     // TODO Spring-Boot-Actuator
     
     @Configuration
     @EnableVaadinSecurity
     public static class WebSecurityConfig extends WebSecurityConfigurerAdapter implements InitializingBean {
-        
+
+        @Autowired
+        private TenantAuthenticationProvider tenantAuthenticationProvider;
+
         @Autowired
         private VaadinSecurityContext vaadinSecurityContext;
 
@@ -91,6 +122,8 @@ public class SecurityConfiguration {
 
             return handler;
         }
+
+
         
         // TODO Disable SpringSecurityFilterChain DefaultFilters (/css, /jsm /images)
         @Override
@@ -102,13 +135,11 @@ public class SecurityConfiguration {
         
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-            auth
-                .inMemoryAuthentication()
-                    .withUser("user").password("user").roles("USER")
-                    .and()
-                    .withUser("admin").password("admin").roles("ADMIN");
+            auth.authenticationProvider(tenantAuthenticationProvider);
         }
-        
+
+
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             
@@ -116,7 +147,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                     .antMatchers("/login/**").permitAll()
                     .antMatchers("/vaadinServlet/UIDL/**").permitAll()
-                    .antMatchers("/HEARTBEAT/**").authenticated()
+                    .antMatchers("/vaadinServlet/HEARTBEAT/**").authenticated()
                     .antMatchers("/**").authenticated()
                     .anyRequest().authenticated()
                 .and()

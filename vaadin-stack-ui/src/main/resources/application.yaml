@@ -14,5 +14,5 @@ liquibase:
 tenant:
   tenant-datasource:
     database: test
-    port: 5328
+    port: 5432
     host: localhost

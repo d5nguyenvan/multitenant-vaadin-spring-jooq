@@ -33,11 +33,19 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="thomas" id="public-insert-default-tenant">
+    <changeSet author="thomas" id="public-insert-first-tenant">
         <insert tableName="tenant" schemaName="master">
-            <column name="tenant_name" value="default_tenant"/>
-            <column name="schema" value="default_tenant"/>
-            <column name="password" value="default_tenant123"/>
+            <column name="tenant_name" value="tenant_1"/>
+            <column name="schema" value="tenant_1"/>
+            <column name="password" value="default_#zcx"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="thomas" id="public-insert-second-tenant">
+        <insert tableName="tenant" schemaName="master">
+            <column name="tenant_name" value="tenant_2"/>
+            <column name="schema" value="tenant_2"/>
+            <column name="password" value="default_#trd"/>
         </insert>
     </changeSet>
 

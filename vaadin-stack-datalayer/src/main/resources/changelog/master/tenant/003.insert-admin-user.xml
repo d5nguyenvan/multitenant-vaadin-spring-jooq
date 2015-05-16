@@ -7,9 +7,9 @@
 
     <changeSet author="thomas" id="${db.schema}-insert-admin-user">
         <insert tableName="user" schemaName="${db.schema}">
-            <column name="user_name" value="admin"/>
+            <column name="user_name" value="${db.schema}"/>
             <column name="active" value="true"/>
-            <column name="password_hash" value="admin123"/>
+            <column name="password_hash" value="$2a$10$QAg/jI.qP.StQzbGIm6zMOr0vyQEM02nzeEKxIr2l5psB1bQoniSS"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
