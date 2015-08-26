@@ -44,7 +44,7 @@ public class LiquibaseRunner {
         tenantRecords.forEach(tenant -> {
             try {
                 LOG.info("Migrating schema for tenant " + tenant.getTenantName());
-                Liquibase migrator = new Liquibase("/changelog/master/tenant/changelog-tenant-master.xml", new ClassLoaderResourceAccessor(), new JdbcConnection(masterDataSource.getConnection()));
+                Liquibase migrator = new Liquibase("changelog/master/tenant/changelog-tenant-master.xml", new ClassLoaderResourceAccessor(), new JdbcConnection(masterDataSource.getConnection()));
                 migrator.setChangeLogParameter("db.schema", tenant.getTenantName());
                 migrator.setChangeLogParameter("db.password", tenant.getPassword());
                 migrator.update("tenant");

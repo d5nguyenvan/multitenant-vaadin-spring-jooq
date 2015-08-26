@@ -23,12 +23,16 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.RequestCacheAwareFilter;
+import org.vaadin.spring.http.HttpService;
 import org.vaadin.spring.security.VaadinSecurityContext;
-import org.vaadin.spring.security.annotation.EnableVaadinSecurity;
+
+import org.vaadin.spring.security.annotation.EnableVaadinSharedSecurity;
+import org.vaadin.spring.security.config.VaadinSharedSecurityConfiguration;
 import org.vaadin.spring.security.web.VaadinDefaultRedirectStrategy;
 import org.vaadin.spring.security.web.VaadinRedirectStrategy;
 import org.vaadin.spring.security.web.authentication.SavedRequestAwareVaadinAuthenticationSuccessHandler;
 import org.vaadin.spring.security.web.authentication.VaadinAuthenticationSuccessHandler;
+import org.vaadin.spring.security.web.authentication.VaadinUrlAuthenticationSuccessHandler;
 
 @Configuration
 @ComponentScan
@@ -58,8 +62,8 @@ public class SecurityConfiguration {
     // TODO Spring-Boot-Actuator
     
     @Configuration
-    @EnableVaadinSecurity
-    public static class WebSecurityConfig extends WebSecurityConfigurerAdapter implements InitializingBean {
+    @EnableVaadinSharedSecurity
+    public static class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 
         @Autowired
         private TenantAuthenticationProvider tenantAuthenticationProvider;
@@ -67,16 +71,7 @@ public class SecurityConfiguration {
         @Autowired
         private VaadinSecurityContext vaadinSecurityContext;
 
-        /*
-         * (non-Javadoc)
-         * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-         * 
-         * Configure the redirectSaveHandler bean as a VaadinAuthenticationSuccessHandler
-         */
-        @Override
-        public void afterPropertiesSet() throws Exception {
-            this.vaadinSecurityContext.addAuthenticationSuccessHandler(redirectSaveHandler());
-        }
+
         
         @Bean(name = "authenticationManager")
         @Override
@@ -111,16 +106,9 @@ public class SecurityConfiguration {
             return new VaadinDefaultRedirectStrategy();
         }
 
-        @Bean
-        public VaadinAuthenticationSuccessHandler redirectSaveHandler() {
-            SavedRequestAwareVaadinAuthenticationSuccessHandler handler = new SavedRequestAwareVaadinAuthenticationSuccessHandler();
-
-            handler.setRedirectStrategy(vaadinRedirectStrategy());
-            handler.setRequestCache(requestCache());
-            handler.setDefaultTargetUrl("/");
-            handler.setTargetUrlParameter("r");
-
-            return handler;
+        @Bean(name = VaadinSharedSecurityConfiguration.VAADIN_AUTHENTICATION_SUCCESS_HANDLER_BEAN)
+        VaadinAuthenticationSuccessHandler vaadinAuthenticationSuccessHandler(HttpService httpService, VaadinRedirectStrategy vaadinRedirectStrategy) {
+            return new VaadinUrlAuthenticationSuccessHandler(httpService, vaadinRedirectStrategy, "/");
         }
 
 
