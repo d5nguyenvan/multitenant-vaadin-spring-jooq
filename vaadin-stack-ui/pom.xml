@@ -12,6 +12,9 @@
     <name>vaadin-stack-ui</name>
     <packaging>war</packaging>
 
+    <properties>
+        <selenium.version>2.53.0</selenium.version>
+    </properties>
     <dependencies>
         <!-- Versions for these are configured in the parent POM -->
 
@@ -20,7 +23,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
+
         </dependency>
 
         <!--<dependency>-->
@@ -59,18 +62,21 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
-
             </plugin>
-
         </plugins>
     </build>
 

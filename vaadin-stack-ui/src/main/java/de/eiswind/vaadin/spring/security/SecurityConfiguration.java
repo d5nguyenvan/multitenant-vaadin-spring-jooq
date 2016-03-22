@@ -5,7 +5,6 @@ import de.eiswind.vaadin.tenancy.TenantAuthenticationToken;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.framework.ProxyFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,19 +19,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.RequestCacheAwareFilter;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
 import org.vaadin.spring.http.HttpService;
 import org.vaadin.spring.security.VaadinSecurityContext;
-
 import org.vaadin.spring.security.annotation.EnableVaadinSharedSecurity;
 import org.vaadin.spring.security.config.VaadinSharedSecurityConfiguration;
-import org.vaadin.spring.security.web.VaadinDefaultRedirectStrategy;
+import org.vaadin.spring.security.shared.VaadinAuthenticationSuccessHandler;
+import org.vaadin.spring.security.shared.VaadinSessionClosingLogoutHandler;
+import org.vaadin.spring.security.shared.VaadinUrlAuthenticationSuccessHandler;
 import org.vaadin.spring.security.web.VaadinRedirectStrategy;
-import org.vaadin.spring.security.web.authentication.SavedRequestAwareVaadinAuthenticationSuccessHandler;
-import org.vaadin.spring.security.web.authentication.VaadinAuthenticationSuccessHandler;
-import org.vaadin.spring.security.web.authentication.VaadinUrlAuthenticationSuccessHandler;
+
 
 @Configuration
 @ComponentScan
@@ -40,7 +39,7 @@ import org.vaadin.spring.security.web.authentication.VaadinUrlAuthenticationSucc
 public class SecurityConfiguration {
 
 
-    @Bean(name ="currentToken")
+    @Bean(name = "currentToken")
     TenantAuthentication currentToken() {
 
         return ProxyFactory.getProxy(TenantAuthentication.class, new MethodInterceptor() {
@@ -48,7 +47,7 @@ public class SecurityConfiguration {
             @Override
             public Object invoke(MethodInvocation invocation) throws Throwable {
                 SecurityContext securityContext = SecurityContextHolder.getContext();
-                TenantAuthenticationToken authentication = (TenantAuthenticationToken)securityContext.getAuthentication();
+                TenantAuthenticationToken authentication = (TenantAuthenticationToken) securityContext.getAuthentication();
                 if (authentication == null) {
                     throw new AuthenticationCredentialsNotFoundException("No authentication found in current security context");
                 }
@@ -60,10 +59,10 @@ public class SecurityConfiguration {
     }
 
     // TODO Spring-Boot-Actuator
-    
+
     @Configuration
     @EnableVaadinSharedSecurity
-    public static class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
+    public static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Autowired
         private TenantAuthenticationProvider tenantAuthenticationProvider;
@@ -72,86 +71,62 @@ public class SecurityConfiguration {
         private VaadinSecurityContext vaadinSecurityContext;
 
 
-        
         @Bean(name = "authenticationManager")
         @Override
         public AuthenticationManager authenticationManagerBean() throws Exception {
             return super.authenticationManagerBean();
         }
 
-        /*
-         * The HttpSessionRequestCache is where the initial request before
-         * redirect to the login is cached so it can be used after successful login
-         */
+
         @Bean
-        public RequestCache requestCache() {
-            RequestCache requestCache = new HttpSessionRequestCache();
-            return requestCache;
+        public RememberMeServices rememberMeServices() {
+            return new TokenBasedRememberMeServices("myAppKey", userDetailsService());
         }
 
-        /*
-         * The RequestCacheAwareFilter is responsible for storing the initial request
-         */
         @Bean
-        public RequestCacheAwareFilter requestCacheAwareFilter() {
-            RequestCacheAwareFilter filter = new RequestCacheAwareFilter(requestCache());
-            return filter;
-        }
-
-        /*
-         * The VaadinRedirectStategy
-         */
-        @Bean
-        public VaadinRedirectStrategy vaadinRedirectStrategy() {
-            return new VaadinDefaultRedirectStrategy();
+        public SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+            return new SessionFixationProtectionStrategy();
         }
 
         @Bean(name = VaadinSharedSecurityConfiguration.VAADIN_AUTHENTICATION_SUCCESS_HANDLER_BEAN)
-        VaadinAuthenticationSuccessHandler vaadinAuthenticationSuccessHandler(HttpService httpService, VaadinRedirectStrategy vaadinRedirectStrategy) {
+        VaadinAuthenticationSuccessHandler vaadinAuthenticationSuccessHandler(HttpService httpService,
+                                                                              VaadinRedirectStrategy vaadinRedirectStrategy) {
             return new VaadinUrlAuthenticationSuccessHandler(httpService, vaadinRedirectStrategy, "/");
         }
 
 
-        
-        // TODO Disable SpringSecurityFilterChain DefaultFilters (/css, /jsm /images)
-        @Override
-        public void configure(WebSecurity web) throws Exception {
-            web
-                .ignoring()
-                    .antMatchers("/VAADIN/**");
-        }
-        
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
             auth.authenticationProvider(tenantAuthenticationProvider);
         }
 
 
-
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            
-            http
-                .authorizeRequests()
-                    .antMatchers("/login/**").permitAll()
+            http.csrf().disable(); // Use Vaadin's built-in CSRF protection instead
+            http.authorizeRequests()
+                    .antMatchers("/login/**").anonymous()
                     .antMatchers("/vaadinServlet/UIDL/**").permitAll()
-                    .antMatchers("/vaadinServlet/HEARTBEAT/**").authenticated()
-                    .antMatchers("/**").authenticated()
-                    .anyRequest().authenticated()
-                .and()
-                .sessionManagement()
-                    .sessionFixation()
-                        .migrateSession()
-                .and()
-                .csrf().disable()
-                .headers()
-                    .frameOptions().disable()
-                .exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
-            
+                    .antMatchers("/vaadinServlet/HEARTBEAT/**").permitAll()
+                    .anyRequest().authenticated();
+            http.httpBasic().disable();
+            http.formLogin().disable();
+            // Remember to add the VaadinSessionClosingLogoutHandler
+            http.logout().addLogoutHandler(new VaadinSessionClosingLogoutHandler()).logoutUrl("/logout")
+                    .logoutSuccessUrl("/login?logout").permitAll();
+            http.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
+            // Instruct Spring Security to use the same RememberMeServices as Vaadin4Spring. Also remember the key.
+            http.rememberMe().rememberMeServices(rememberMeServices()).key("myAppKey");
+            // Instruct Spring Security to use the same authentication strategy as Vaadin4Spring
+            http.sessionManagement().sessionAuthenticationStrategy(sessionAuthenticationStrategy());
         }
 
-        
-        
+        @Override
+        public void configure(WebSecurity web) throws Exception {
+            web.ignoring().antMatchers("/VAADIN/**");
+        }
+
+
     }
-    
+
 }

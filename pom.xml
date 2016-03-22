@@ -18,8 +18,8 @@
 	<properties>
 		<vaadin.version>7.4.5</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
-		<vaadin.boot.version>1.0.0.beta3</vaadin.boot.version>
-		<vaadin.security.version>0.0.7-SNAPSHOT</vaadin.security.version>
+		<vaadin.boot.version>1.0.0</vaadin.boot.version>
+		<vaadin.security.version>0.0.7.RELEASE</vaadin.security.version>
 		<jetty.plugin.version>9.2.3.v20140905</jetty.plugin.version>
 		<postgres.driver.version>9.4-1201-jdbc41</postgres.driver.version>
 		<querydsl.version>3.6.3</querydsl.version>
